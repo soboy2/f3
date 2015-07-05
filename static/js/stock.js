@@ -46,7 +46,7 @@ var yearlyBubbleChart = dc.bubbleChart('#yearly-bubble-chart');
 //d3.json('data.json', function(data) {...};
 //jQuery.getJson('data.json', function(data){...});
 //```
-d3.csv('ndx.csv', function (data) {
+d3.csv('/static/data/ndx.csv', function (data) {
     /* since its a csv file we need to format the data a bit */
     var dateFormat = d3.time.format('%m/%d/%Y');
     var numberFormat = d3.format('.2f');
@@ -311,7 +311,7 @@ d3.csv('ndx.csv', function (data) {
         .group(dayOfWeekGroup)
         .dimension(dayOfWeek)
         // assign colors to each value in the x scale domain
-        .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
+        //.ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
         .label(function (d) {
             return d.key.split('.')[1];
         })
@@ -340,7 +340,7 @@ d3.csv('ndx.csv', function (data) {
         .gap(1)
         // (optional) set filter brush rounding
         .round(dc.round.floor)
-        .alwaysUseRounding(true)
+        //.alwaysUseRounding(true)
         .x(d3.scale.linear().domain([-25, 25]))
         .renderHorizontalGridLines(true)
         // customize the filter displayed in the control span
@@ -385,15 +385,15 @@ d3.csv('ndx.csv', function (data) {
         // The second parameter is the series name. The third is a value accessor.
         .stack(monthlyMoveGroup, 'Monthly Index Move', function (d) {
             return d.value;
-        })
-        // title can be called by any stack layer.
-        .title(function (d) {
-            var value = d.value.avg ? d.value.avg : d.value;
-            if (isNaN(value)) {
-                value = 0;
-            }
-            return dateFormat(d.key) + '\n' + numberFormat(value);
         });
+        // title can be called by any stack layer.
+        // .title(function (d) {
+        //     var value = d.value.avg ? d.value.avg : d.value;
+        //     if (isNaN(value)) {
+        //         value = 0;
+        //     }
+        //     return dateFormat(d.key) + '\n' + numberFormat(value);
+        // });
 
     volumeChart.width(990)
         .height(40)
@@ -404,7 +404,7 @@ d3.csv('ndx.csv', function (data) {
         .gap(1)
         .x(d3.time.scale().domain([new Date(1985, 0, 1), new Date(2012, 11, 31)]))
         .round(d3.time.month.round)
-        .alwaysUseRounding(true)
+        //.alwaysUseRounding(true)
         .xUnits(d3.time.months);
 
     /*
@@ -423,11 +423,11 @@ d3.csv('ndx.csv', function (data) {
         // (optional) html, for setting different html for some records and all records.
         // .html replaces everything in the anchor with the html given using the following function.
         // %filter-count and %total-count are replaced with the values obtained.
-        .html({
-            some:'<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
-                ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'\'>Reset All</a>',
-            all:'All records selected. Please click on the graph to apply filters.'
-        });
+        // .html({
+        //     some:'<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+        //         ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'\'>Reset All</a>',
+        //     all:'All records selected. Please click on the graph to apply filters.'
+        // });
 
     /*
     //#### Data Table

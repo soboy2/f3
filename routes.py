@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("stock.html")
 
 @app.route("/topz")
 def top_players():
@@ -20,11 +20,12 @@ def top_players():
         mean = '12'
         position =  'RB'
         projection = {"_id": 0, "coeff_var": 1, "mean": 1, "name": 1}
-        query = {"position": position, "mean":{"$gte": mean}, "coeff_var":{"$lte": "0.50"}}
-        players = db.players.find(query, projection).sort([("coeff_var", 1)]).limit(15)
+        query = {"position": position, "mean":{"$gte": mean}, "coeff_var":{"$lte": "0.60"}}
+        players = db.players.find(query, projection).sort([("coeff_var", 1)]).limit(20)
 
         for player in players:
-            json_players.append(player)
+            if float(player["mean"]) > float(mean):
+                json_players.append(player)
         json_players = json.dumps(json_players, default=json_util.default)
         print(json_players)
         return json_players
